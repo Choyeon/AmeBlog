@@ -127,3 +127,17 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+/.idea/dictionaries/choyeon.xml
+/.idea/inspectionProfiles/Project_Default.xml
+/.idea/.gitignore
+/.idea/AmeBLog.iml
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/vcs.xml
+/app/blueprints/__init__.py
+/app/blueprints/admin.py
+/app/blueprints/auth.py
+/app/blueprints/blog.py
+/app/__init__.py
+/Pipfile
+/Pipfile.lock
