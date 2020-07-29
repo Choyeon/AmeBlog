@@ -15,9 +15,8 @@ from app.settings import config
 
 
 def create_app(config_name=None):
-    if config is None:
-        config_name = os.getenv('FLASK_CONFIG', 'development')
-
+    if config_name is None:
+        config_name = os.getenv('FLASK_ENV', 'development')
     app = Flask('Ameblog')
     app.config.from_object(config[config_name])
     register_logging(app)
