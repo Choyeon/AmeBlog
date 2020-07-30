@@ -21,7 +21,7 @@ def fake_admin():
     )
     # TODO:貌似没有添加密码
     db.session.add(admin)
-    db.commit()
+    db.session.commit()
 
 
 faker = Faker('zh_CN')
@@ -34,7 +34,7 @@ def fake_category(count=10):
         category = Category(name=faker.word())
         db.session.add(category)
         try:
-            db.commit()
+            db.session.commit()
         except IntegrityError:
             db.session.rollback()
 

@@ -4,6 +4,7 @@
 # @Site    : https://www.choyeon.cn
 # @File    : __init__.py
 import os
+import click
 
 from flask import Flask, render_template
 
@@ -51,7 +52,29 @@ def register_blueprints(app):
 
 
 def register_commands(app):
-    pass
+    ...
+
+    @app.cli.command()
+    @click.option('--category', default=10, help='生成分类数量，默认为10。')
+    @click.option('--post', default=50, help='生成文章数量，默认为50。')
+    @click.option('--comment', default=500, help='生成评论数量，默认为500。')
+    def forge(category, post, comment):
+        """
+        生成伪造的分类，帖子和评论
+        """
+        from .fakes import fake_category, fake_posts, fake_comments, fake_admin
+        db.drop_all()
+        db.create_all()
+        click.echo('正在生成管理员账号')
+        fake_admin()
+        click.echo('正在生成%d个分类' % category)
+        fake_category(category)
+        click.echo('正在生成%d个文章' % post)
+        fake_posts(post)
+        click.echo('正在生成%d个评论' % comment)
+        fake_comments(comment)
+
+        click.echo('完成')
 
 
 def register_errors(app):
