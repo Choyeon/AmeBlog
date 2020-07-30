@@ -24,8 +24,8 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarColor01">
                 <ul class="navbar-nav mr-auto">
-                    {{ render_nav_item('blog.index', 'Home') }}
-                    {{ render_nav_item('blog.about', 'About') }}
+                    {{ render_nav_item('blog.index', '主页') }}
+                    {{ render_nav_item('blog.about', '关于') }}
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right">
@@ -34,12 +34,12 @@
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
                                aria-haspopup="true"
                                aria-expanded="false">
-                                New <span class="caret"></span>
+                                添加 <span class="caret"></span>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ url_for('admin.new_post') }}">Post</a>
-                                <a class="dropdown-item" href="{{ url_for('admin.new_category') }}">Category</a>
-                                <a class="dropdown-item" href="{{ url_for('admin.new_link') }}">Link</a>
+                                <a class="dropdown-item" href="{{ url_for('admin.new_post') }}">文章</a>
+                                <a class="dropdown-item" href="{{ url_for('admin.new_category') }}">分类</a>
+                                <a class="dropdown-item" href="{{ url_for('admin.new_link') }}">友情链接</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
@@ -52,18 +52,18 @@
                                 {% endif %}
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ url_for('admin.manage_post') }}">Post</a>
-                                <a class="dropdown-item" href="{{ url_for('admin.manage_category') }}">Category</a>
+                                <a class="dropdown-item" href="{{ url_for('admin.manage_post') }}">文章</a>
+                                <a class="dropdown-item" href="{{ url_for('admin.manage_category') }}">分类</a>
                                 <a class="dropdown-item" href="{{ url_for('admin.manage_comment') }}">
                                     评论
                                     {% if unread_comments %}
                                         <span class="badge badge-success">{{ unread_comments }}</span>
                                     {% endif %}
                                 </a>
-                                <a class="dropdown-item" href="{{ url_for('admin.manage_link') }}">Link</a>
+                                <a class="dropdown-item" href="{{ url_for('admin.manage_link') }}">友情链接</a>
                             </div>
                         </li>
-                        {{ render_nav_item('admin.settings', 'Settings') }}
+                        {{ render_nav_item('admin.settings', '设置') }}
                     {% endif %}
                 </ul>
             </div>
@@ -105,6 +105,7 @@
     <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/script.js') }}"></script>
     {{ moment.include_moment(local_js=url_for('static', filename='js/moment-with-locales.min.js')) }}
+{{ moment.locale('zh-cn') }}
 {% endblock %}
 </body>
 </html>

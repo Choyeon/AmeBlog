@@ -29,6 +29,8 @@ def create_app(config_name=None):
         config_name = os.getenv('FLASK_ENV', 'development')
     app = Flask('app')
     app.config.from_object(config[config_name])
+
+
     register_logging(app)
     register_extensions(app)
     register_blueprints(app)
@@ -86,6 +88,7 @@ def register_extensions(app):
     moment.init_app(app)
     toolbar.init_app(app)
     migrate.init_app(app, db)
+    # app.config['WTF_I18N_ENABLED'] = False
 
 
 def register_blueprints(app):

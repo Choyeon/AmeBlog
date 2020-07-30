@@ -19,7 +19,7 @@ class BaseForm(FlaskForm):
 
 class LoginForm(BaseForm):
     username = StringField('用户名', validators=[DataRequired(), Length(1, 20)])
-    password = PasswordField('密码', validators=[DataRequired(), Length(8, 128)])
+    password = PasswordField('密码', validators=[DataRequired(), Length(4, 128)])
     remember = BooleanField('记住我')
     submit = SubmitField('登录')
 
@@ -28,6 +28,7 @@ class PostForm(BaseForm):
     title = StringField('标题', validators=[DataRequired(), Length(1, 60)])
     category = SelectField('分类', validators=[DataRequired()])
     body = CKEditorField('内容', validators=[DataRequired()])
+    submit = SubmitField()
 
     def __init__(self, *args, **kwargs):
         super(PostForm, self).__init__(*args, **kwargs)
@@ -58,13 +59,13 @@ class AdminCommentForm(CommentForm):
     site = HiddenField()
 
 
-class LinkForm(FlaskForm):
+class LinkForm(BaseForm):
     name = StringField('Name', validators=[DataRequired(), Length(1, 30)])
     url = StringField('URL', validators=[DataRequired(), URL(), Length(1, 255)])
     submit = SubmitField()
 
 
-class SettingForm(FlaskForm):
+class SettingForm(BaseForm):
     name = StringField('设置名', validators=[DataRequired(), Length(1, 30)])
     blog_title = StringField('Blog标题', validators=[DataRequired(), Length(1, 60)])
     blog_sub_title = StringField('Blog副标题', validators=[DataRequired(), Length(1, 100)])

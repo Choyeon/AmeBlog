@@ -27,7 +27,7 @@ def settings():
         current_user.blog_sub_title = form.blog_sub_title.data
         current_user.about = form.about.data
         db.session.commit()
-        flash('Setting updated.', 'success')
+        flash('设置已更新。', 'success')
         return redirect(url_for('blog.index'))
     form.name.data = current_user.name
     form.blog_title.data = current_user.blog_title
@@ -41,7 +41,7 @@ def settings():
 def manage_post():
     page = request.args.get('page', 1, type=int)
     pagination = Post.query.order_by(Post.timestamp.desc()).paginate(
-        page, per_page=current_app.config['app_MANAGE_POST_PER_PAGE'])
+        page, per_page=current_app.config['AMEBLOG_MANAGE_POST_PER_PAGE'])
     posts = pagination.items
     return render_template('admin/manage_post.html', page=page, pagination=pagination, posts=posts)
 
@@ -55,12 +55,9 @@ def new_post():
         body = form.body.data
         category = Category.query.get(form.category.data)
         post = Post(title=title, body=body, category=category)
-        # same with:
-        # category_id = form.category.data
-        # post = Post(title=title, body=body, category_id=category_id)
         db.session.add(post)
         db.session.commit()
-        flash('Post created.', 'success')
+        flash('文章已创建。', 'success')
         return redirect(url_for('blog.show_post', post_id=post.id))
     return render_template('admin/new_post.html', form=form)
 
@@ -75,7 +72,7 @@ def edit_post(post_id):
         post.body = form.body.data
         post.category = Category.query.get(form.category.data)
         db.session.commit()
-        flash('Post updated.', 'success')
+        flash('文章已更新。', 'success')
         return redirect(url_for('blog.show_post', post_id=post.id))
     form.title.data = post.title
     form.body.data = post.body
@@ -89,7 +86,7 @@ def delete_post(post_id):
     post = Post.query.get_or_404(post_id)
     db.session.delete(post)
     db.session.commit()
-    flash('Post deleted.', 'success')
+    flash('文章已删除。', 'success')
     return redirect_back()
 
 
@@ -99,10 +96,10 @@ def set_comment(post_id):
     post = Post.query.get_or_404(post_id)
     if post.can_comment:
         post.can_comment = False
-        flash('Comment disabled.', 'success')
+        flash('评论已禁用。', 'success')
     else:
         post.can_comment = True
-        flash('Comment enabled.', 'success')
+        flash('已启用评论。', 'success')
     db.session.commit()
     return redirect_back()
 
@@ -110,9 +107,9 @@ def set_comment(post_id):
 @admin_bp.route('/comment/manage')
 @login_required
 def manage_comment():
-    filter_rule = request.args.get('filter', 'all')  # 'all', 'unreviewed', 'admin'
+    filter_rule = request.args.get('filter', 'all')
     page = request.args.get('page', 1, type=int)
-    per_page = current_app.config['app_COMMENT_PER_PAGE']
+    per_page = current_app.config['AMEBLOG_COMMENT_PER_PAGE']
     if filter_rule == 'unread':
         filtered_comments = Comment.query.filter_by(reviewed=False)
     elif filter_rule == 'admin':
@@ -131,7 +128,7 @@ def approve_comment(comment_id):
     comment = Comment.query.get_or_404(comment_id)
     comment.reviewed = True
     db.session.commit()
-    flash('Comment published.', 'success')
+    flash('发表评论。', 'success')
     return redirect_back()
 
 
@@ -141,7 +138,7 @@ def delete_comment(comment_id):
     comment = Comment.query.get_or_404(comment_id)
     db.session.delete(comment)
     db.session.commit()
-    flash('Comment deleted.', 'success')
+    flash('评论已删除。', 'success')
     return redirect_back()
 
 
@@ -160,7 +157,7 @@ def new_category():
         category = Category(name=name)
         db.session.add(category)
         db.session.commit()
-        flash('Category created.', 'success')
+        flash('创建分类。', 'success')
         return redirect(url_for('.manage_category'))
     return render_template('admin/new_category.html', form=form)
 
@@ -171,12 +168,12 @@ def edit_category(category_id):
     form = CategoryForm()
     category = Category.query.get_or_404(category_id)
     if category.id == 1:
-        flash('You can not edit the default category.', 'warning')
+        flash('您无法编辑默认分类。', 'warning')
         return redirect(url_for('blog.index'))
     if form.validate_on_submit():
         category.name = form.name.data
         db.session.commit()
-        flash('Category updated.', 'success')
+        flash('类别已更新。', 'success')
         return redirect(url_for('.manage_category'))
 
     form.name.data = category.name
@@ -188,10 +185,10 @@ def edit_category(category_id):
 def delete_category(category_id):
     category = Category.query.get_or_404(category_id)
     if category.id == 1:
-        flash('You can not delete the default category.', 'warning')
+        flash('您无法删除默认分类。', 'warning')
         return redirect(url_for('blog.index'))
     category.delete()
-    flash('Category deleted.', 'success')
+    flash('分类已删除。', 'success')
     return redirect(url_for('.manage_category'))
 
 
@@ -211,7 +208,7 @@ def new_link():
         link = Link(name=name, url=url)
         db.session.add(link)
         db.session.commit()
-        flash('Link created.', 'success')
+        flash('链接已创建。', 'success')
         return redirect(url_for('.manage_link'))
     return render_template('admin/new_link.html', form=form)
 
@@ -225,7 +222,7 @@ def edit_link(link_id):
         link.name = form.name.data
         link.url = form.url.data
         db.session.commit()
-        flash('Link updated.', 'success')
+        flash('链接已更新。', 'success')
         return redirect(url_for('.manage_link'))
     form.name.data = link.name
     form.url.data = link.url
@@ -238,20 +235,20 @@ def delete_link(link_id):
     link = Link.query.get_or_404(link_id)
     db.session.delete(link)
     db.session.commit()
-    flash('Link deleted.', 'success')
+    flash('链接已删除。', 'success')
     return redirect(url_for('.manage_link'))
 
 
 @admin_bp.route('/uploads/<path:filename>')
 def get_image(filename):
-    return send_from_directory(current_app.config['app_UPLOAD_PATH'], filename)
+    return send_from_directory(current_app.config['AMEBLOG_UPLOAD_PATH'], filename)
 
 
 @admin_bp.route('/upload', methods=['POST'])
 def upload_image():
     f = request.files.get('upload')
     if not allowed_file(f.filename):
-        return upload_fail('Image only!')
-    f.save(os.path.join(current_app.config['app_UPLOAD_PATH'], f.filename))
+        return upload_fail('仅图片可以上传！')
+    f.save(os.path.join(current_app.config['AMEBLOG_UPLOAD_PATH'], f.filename))
     url = url_for('.get_image', filename=f.filename)
     return upload_success(url, f.filename)
