@@ -12,6 +12,7 @@ from app.blueprints.admin import admin_bp
 from app.blueprints.auth import auth_bp
 from app.blueprints.blog import blog_bp
 from app.extensions import bootstrap, db, ckeditor, mail, moment
+from app.models import Admin, Category
 from app.settings import config
 
 
@@ -82,12 +83,14 @@ def register_errors(app):
     def bad_request(e):
         return render_template('errors/400.html'), 400
 
-    ...
-
 
 def register_shell_context(app):
     pass
 
 
 def register_template_context(app):
-    pass
+    @app.context_processor()
+    def make_template_context():
+        admin = Admin.query.first()
+        categories = Category.query.order_by(Category.name).all()
+        return dict(admin=admin, categories=categories)
