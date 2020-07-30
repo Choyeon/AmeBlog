@@ -8,6 +8,7 @@ from datetime import datetime
 from .extensions import db
 
 
+# 管理员模型类
 class Admin(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20))
@@ -17,7 +18,12 @@ class Admin(db.Model):
     name = db.Column(db.String(30))
     about = db.Column(db.Text)
 
+    @classmethod
+    def count(cls):
+        return cls.query.count()
 
+
+# 文章模型类
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(60))
@@ -28,12 +34,18 @@ class Post(db.Model):
     comments = db.relationship('Comment', backref='post', cascade='all,de;ete-orphan')
 
 
+# 分类模型类
 class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(30), unique=True)
     post = db.relationship('Post', back_populates='category')
 
+    @classmethod
+    def count(cls):
+        return cls.query.count()
 
+
+# 评论模型类
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     author = db.Column(db.String(30))
@@ -45,3 +57,7 @@ class Comment(db.Model):
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
     post_id = db.Column(db.Integer, db.ForeignKey('Post'))
     post = db.relationship('Post', back_populates='comments')
+
+    @classmethod
+    def count(cls):
+        return cls.query.count()

@@ -10,6 +10,7 @@ watchdog = "*"
 faker = "*"
 
 [packages]
+sqlalchemy='*'
 flask = "*"
 flask-ckeditor = "*"
 flask-mail = "*"
