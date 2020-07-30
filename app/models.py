@@ -5,6 +5,8 @@
 # @File    : models
 from datetime import datetime
 
+from werkzeug.security import generate_password_hash, check_password_hash
+
 from .extensions import db
 
 
@@ -17,6 +19,12 @@ class Admin(db.Model):
     blog_sub_title = db.Column(db.String(100))
     name = db.Column(db.String(30))
     about = db.Column(db.Text)
+
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def validate_password(self, password):
+        return check_password_hash(self.password_hash, password)
 
     @classmethod
     def count(cls):
@@ -32,6 +40,14 @@ class Post(db.Model):
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
     category = db.relationship('Category', back_populates='posts')
     comments = db.relationship('Comment', back_populates='post', cascade='all, delete-orphan')
+
+    def delete(self):
+        default_category = Category.query.get(1)
+        posts = self.posts[:]
+        for post in posts:
+            post.category = default_category
+        db.session.delete(self)
+        db.session.commit()
 
     @classmethod
     def count(cls):
@@ -68,3 +84,10 @@ class Comment(db.Model):
     @classmethod
     def count(cls):
         return cls.query.count()
+
+
+class Link(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(30))
+    url = db.Column(db.String(255))
+    about = db.Column(db.Text)

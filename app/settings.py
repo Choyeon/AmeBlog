@@ -25,6 +25,12 @@ class BaseConfig(object):
     AMEBLOG_POST_PER_PAGE = 10
     AMEBLOG_MANAGE_POST_PER_PAGE = 15
     AMEBLOG_COMMENT_PER_PAGE = 15
+    # ('theme name', 'display name')
+    AMEBLOG_THEMES = {'perfect_blue': '蓝色主题', 'black_swan': '深色主题'}
+    AMEBLOG_SLOW_QUERY_THRESHOLD = 1
+
+    AMEBLOG_UPLOAD_PATH = os.path.join(basedir, 'uploads')
+    AMEBLOG_ALLOWED_IMAGE_EXTENSIONS = ['png', 'jpg', 'jpeg', 'gif']
 
 
 # 开发配置

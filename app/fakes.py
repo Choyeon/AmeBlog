@@ -7,7 +7,7 @@ from faker import Faker
 from sqlalchemy.exc import IntegrityError
 import random
 
-from .models import Admin, Category, Post, Comment
+from .models import Admin, Category, Post, Comment, Link
 from .extensions import db
 
 
@@ -19,7 +19,7 @@ def fake_admin():
         name='Choyeon',
         about='联系邮件：admin@choyeon.cn'
     )
-    # TODO:貌似没有添加密码
+    admin.set_password('201314')
     db.session.add(admin)
     db.session.commit()
 
@@ -99,4 +99,13 @@ def fake_comments(count=500):
             post=Post.query.get(random.randint(1, Post.count()))
         )
         db.session.add(comment)
+    db.session.commit()
+
+
+def fake_links():
+    twitter = Link(name='Twitter', url='#')
+    facebook = Link(name='Facebook', url='#')
+    linkedin = Link(name='LinkedIn', url='#')
+    google = Link(name='Google+', url='#')
+    db.session.add_all([twitter, facebook, linkedin, google])
     db.session.commit()
