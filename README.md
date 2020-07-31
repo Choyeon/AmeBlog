@@ -17,4 +17,17 @@ $ flask run # 直接运行Flask服务器即可查看效果 内置了本地的SQL
 * Running on http://127.0.0.1:5000/
 ```
 
+### 效果图：
+
+![1](https://github-photo-1252181153.cos.ap-shanghai.myqcloud.com/ameblog/ameblog-1.png)
+
+![2](https://github-photo-1252181153.cos.ap-shanghai.myqcloud.com/ameblog/ameblog-2.png)
+
+![3](https://github-photo-1252181153.cos.ap-shanghai.myqcloud.com/ameblog/ameblog-3.png)
+
+![4](https://github-photo-1252181153.cos.ap-shanghai.myqcloud.com/ameblog/ameblog-4.png)
+
+![5](https://github-photo-1252181153.cos.ap-shanghai.myqcloud.com/ameblog/ameblog-5.png)
+
+![6](https://github-photo-1252181153.cos.ap-shanghai.myqcloud.com/ameblog/ameblog-6.png)
 
