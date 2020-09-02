@@ -7,9 +7,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>{% block title %}{% endblock title %} - {{ admin.blog_title|default('Blog Title') }}</title>
         <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
-        <link rel="stylesheet"
-              href="{{ url_for('static', filename='css/%s.min.css' % request.cookies.get('theme', 'perfect_blue')) }}"
-              type="text/css">
+        {% if request.cookies.get('theme', 'perfect_blue' == 'perfect_blue') %}
+            <link href="https://cdn.bootcdn.net/ajax/libs/bootswatch/4.5.2/cerulean/bootstrap.css" rel="stylesheet">
+        {% else %}
+            <link href="https://cdn.bootcdn.net/ajax/libs/bootswatch/4.5.2/darkly/bootstrap.css" rel="stylesheet">
+        {% endif %}
+
         <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css">
     {% endblock head %}
 </head>
@@ -100,12 +103,14 @@
 </main>
 
 {% block scripts %}
-    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.2.1.slim.min.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/1.10.0/jquery.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/popper.js/2.4.4/cjs/popper.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.js"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/script.js') }}"></script>
-    {{ moment.include_moment(local_js=url_for('static', filename='js/moment-with-locales.min.js')) }}
-{{ moment.locale('zh-cn') }}
+    <script src="https://cdn.bootcdn.net/ajax/libs/ckeditor/4.0.1/ckeditor.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/moment.js/2.9.0/moment.js"></script>
+    {{ moment.include_moment(local_js="https://cdn.bootcdn.net/ajax/libs/moment.js/2.9.0/moment.min.js") }}
+    {{ moment.locale('zh-cn') }}
 {% endblock %}
 </body>
 </html>
